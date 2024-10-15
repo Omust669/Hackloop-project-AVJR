@@ -1,0 +1,175 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+
+.navbar ul li {
+    display: inline;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Hero Section */
+.hero {
+    background-color: #222;
+    color: #fff;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.2rem;
+}
+
+.hero .btn {
+    background-color: #ff6347;
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 5px;
+    margin-top: 1rem;
+}
+
+/* Menu Section */
+.menu-section {
+    padding: 3rem;
+    background-color: #fff;
+    text-align: center;
+}
+
+.menu-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.menu-grid {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.menu-item {
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.menu-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.menu-item h3 {
+    margin: 1rem 0;
+}
+
+.menu-item .price {
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+.menu-item .btn {
+    background-color: #ff6347;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 5px;
+    margin-top: 0.5rem;
+}
+
+/* Order Section */
+.order-section {
+    background-color: #f4f4f4;
+    padding: 3rem;
+    text-align: center;
+}
+
+.order-section h2 {
+    margin-bottom: 1.5rem;
+}
+
+.order-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.order-form input,
+.order-form textarea {
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.order-form .btn {
+    background-color: #333;
+    color: white;
+    padding: 0.8rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Contact Section */
+.contact-section {
+    background-color: #fff;
+    padding: 2rem;
+    text-align: center;
+}
+
+.contact-section h2 {
+    margin-bottom: 1rem;
+}
+
+/* Footer */
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem;
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Restaurant Ordering</title>
+    <link rel="stylesheet" href="styles.css">
+    <linl rel="icon" href="icons/pngwing.com.png"
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="logo">RestaurantName</div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#order">Order Now</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <h1>Welcome to RestaurantName</h1>
+        <p>Preorder your meal and enjoy a seamless dining experience.</p>
+        <a href="#menu" class="btn">Explore Menu</a>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu-section">
+        <h2>Our Menu</h2>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <img src="dish1.jpg" alt="Dish 1">
+                <h3>Grilled Chicken</h3>
+                <p>Delicious grilled chicken with spices</p>
+                <p class="price">$12.99</p>
+                <button class="btn">Add to Cart</button>
+            </div>
+            <div class="menu-item">
+                <img src="dish2.jpg" alt="Dish 2">
+                <h3>Veggie Pizza</h3>
+                <p>Fresh vegetables on a crispy crust</p>
+                <p class="price">$9.99</p>
+                <button class="btn">Add to Cart</button>
+            </div>
+            <!-- Add more menu items similarly -->
+        </div>
+    </section>
+
+    <!-- Order Now Section -->
+    <section id="order" class="order-section">
+        <h2>Order Now</h2>
+        <form action="#" class="order-form">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="email">Your Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="time">Pickup/Arrival Time</label>
+            <input type="datetime-local" id="time" name="time" required>
+            
+            <label for="order-details">Order Details</label>
+            <textarea id="order-details" name="order-details" rows="4" placeholder="Enter your order here..." required></textarea>
+            
+            <button type="submit" class="btn">Place Order</button>
+        </form>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <h2>Contact Us</h2>
+        <p>Email: info@restaurantname.com</p>
+        <p>Phone: (123) 456-7890</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 RestaurantName. All rights reserved.</p>
+    </footer>
+</body>
+</html>
