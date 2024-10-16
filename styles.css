@@ -135,15 +135,15 @@ a {
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
-    max-width: 400px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
 .order-form input,
 .order-form textarea {
     padding: 0.8rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
 }
 
 .order-form .btn {
@@ -173,3 +173,11 @@ a {
     padding: 1rem 0;
     margin-top: 2rem;
 }
+#order {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh
+}
+
+
