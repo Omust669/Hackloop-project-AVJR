@@ -173,3 +173,33 @@ a {
     padding: 1rem 0;
     margin-top: 2rem;
 }
+order {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh
+}
+.container {
+    display: flex;
+    justify-content: center;
+    margin: 0%;
+    box-shadow: #000000;
+    align-items: center;
+
+  }
+  
+  .center-button {
+    padding: 10px 20px; /* Padding */
+    background-color:  #ff6347;; /* Button color */
+    color: white; /* Text color */
+    border: 2px solid black; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer;
+    border-width: 2px;/* Pointer cursor on hover */
+  }
+  
+
+  
+  
+
+
