@@ -8,7 +8,53 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="icons/pngwing.com.png">
 </head>
+<script>
+    let cart = [];
+    let total = 0;
+
+    function addToCart(itemName, itemPrice) {
+        // Add the item to the cart array
+        cart.push({ name: itemName, price: itemPrice });
+        total += itemPrice; // Update the total price
+        
+        // Update the cart display
+        displayCart();
+    }
+
+    function removeFromCart(index) {
+        total -= cart[index].price; // Subtract the item's price from the total
+        cart.splice(index, 1); // Remove the item from the cart
+        
+        // Update the cart display
+        displayCart();
+    }
+
+    function displayCart() {
+        const cartItemsElement = document.getElementById('cart-items');
+        cartItemsElement.innerHTML = ''; // Clear previous items
+        
+        // Display each item in the cart
+        cart.forEach((item, index) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+            
+            // Create a remove button
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remove';
+            removeButton.classList.add('btn');
+            removeButton.onclick = () => removeFromCart(index); // Set the click event to remove the item
+            
+            listItem.appendChild(removeButton); // Append the remove button to the list item
+            listItem.classList.add('fade-in'); // Add fade-in class for animation
+            cartItemsElement.appendChild(listItem);
+        });
+        
+        // Update the total price display
+        document.getElementById('total-price').textContent = `Total: $${total.toFixed(2)}`;
+    }
+</script>
 <body>
+    
     <!-- Navigation Bar -->
     <header class="navbar">
         <div class="logo">RestaurantName</div>
@@ -16,10 +62,19 @@
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="index1.html">Menu</a></li>
-                <li><a href="index2.html">Order Now</a></li>
+                <li><a href="#" onclick="showPopup()">Order Now</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
+        <div id="overlay" class="overlay">
+            <!-- Popup content -->
+            <div class="popup">
+                <p>choose items (if you have already then please ignore)</p>
+                <a href="#order">
+                <button class="close-btn" onclick="closePopup()">place order</button>
+            </a>
+            </div>
+        </div>
     </header>
 
     <!-- Hero Section -->
@@ -33,81 +88,88 @@
                 <h3>Grilled Chicken</h3>
                 <p>Delicious grilled chicken with spices</p>
                 <p class="price">$12.99</p>
-                <button class="btn">Add to Cart</button>
+                <button class="button" onclick="addToCart('Grilled Chicken', 12.99)">Add to Cart</button>
+                        </div>
+            <div class="menu-item">
+                <img src="dish2.jpg" alt="Dish 2">
+                <h3>Veggie Pizza</h3>
+                <p>Fresh vegetables on a crispy crust</p>
+                <p class="price">$9.99</p>
+                <button class="button" onclick="addToCart('Grilled Chicken', 12.99)">Add to Cart</button>
             </div>
             <div class="menu-item">
                 <img src="dish2.jpg" alt="Dish 2">
                 <h3>Veggie Pizza</h3>
                 <p>Fresh vegetables on a crispy crust</p>
                 <p class="price">$9.99</p>
-                <button class="btn">Add to Cart</button>
+                <button class="button" onclick="addToCart('Grilled Chicken', 12.99)">Add to Cart</button>
             </div>
             <div class="menu-item">
                 <img src="dish2.jpg" alt="Dish 2">
                 <h3>Veggie Pizza</h3>
                 <p>Fresh vegetables on a crispy crust</p>
                 <p class="price">$9.99</p>
-                <button class="btn">Add to Cart</button>
+                <button class="button" onclick="addToCart('Grilled Chicken', 12.99)">Add to Cart</button>
             </div>
             <div class="menu-item">
                 <img src="dish2.jpg" alt="Dish 2">
                 <h3>Veggie Pizza</h3>
                 <p>Fresh vegetables on a crispy crust</p>
                 <p class="price">$9.99</p>
-                <button class="btn">Add to Cart</button>
+                <button class="button" onclick="addToCart('Grilled Chicken', 12.99)">Add to Cart</button>
             </div>
             <div class="menu-item">
                 <img src="dish2.jpg" alt="Dish 2">
                 <h3>Veggie Pizza</h3>
                 <p>Fresh vegetables on a crispy crust</p>
                 <p class="price">$9.99</p>
-                <button class="btn">Add to Cart</button>
+                <button class="button" onclick="addToCart('Grilled Chicken', 12.99)">Add to Cart</button>
             </div>
             <div class="menu-item">
                 <img src="dish2.jpg" alt="Dish 2">
                 <h3>Veggie Pizza</h3>
                 <p>Fresh vegetables on a crispy crust</p>
                 <p class="price">$9.99</p>
-                <button class="btn">Add to Cart</button>
+                <button class="button" onclick="addToCart('Grilled Chicken', 12.99)">Add to Cart</button>
             </div>
             <div class="menu-item">
                 <img src="dish2.jpg" alt="Dish 2">
                 <h3>Veggie Pizza</h3>
                 <p>Fresh vegetables on a crispy crust</p>
                 <p class="price">$9.99</p>
-                <button class="btn">Add to Cart</button>
+                <button class="button" onclick="addToCart('Grilled Chicken', 12.99)">Add to Cart</button>
             </div>
             <div class="menu-item">
                 <img src="dish2.jpg" alt="Dish 2">
                 <h3>Veggie Pizza</h3>
                 <p>Fresh vegetables on a crispy crust</p>
                 <p class="price">$9.99</p>
-                <button class="btn">Add to Cart</button>
+                <button class="button" onclick="addToCart('Grilled Chicken', 12.99)">Add to Cart</button>
             </div>
             <div class="menu-item">
                 <img src="dish2.jpg" alt="Dish 2">
                 <h3>Veggie Pizza</h3>
                 <p>Fresh vegetables on a crispy crust</p>
                 <p class="price">$9.99</p>
-                <button class="btn">Add to Cart</button>
-            </div>
-            <div class="menu-item">
-                <img src="dish2.jpg" alt="Dish 2">
-                <h3>Veggie Pizza</h3>
-                <p>Fresh vegetables on a crispy crust</p>
-                <p class="price">$9.99</p>
-                <button class="btn">Add to Cart</button>
+                <button class="button" onclick="addToCart('Grilled Chicken', 12.99)">Add to Cart</button>
             </div>
         </div>
     </section>
+    <section id="order">  
+          <div class="container" >
+                <a href="index2.html">
+                <button class="center-button">Place order</button>
+                </a>
+            </div>
+    </section>
+    <div id="cart">
+        <h2>Your Cart</h2>
+        <ul id="cart-items"></ul>
+        <p id="total-price">Total: $0.00</p>
+    </div>
 
-    <div class="container">
-        <div class="small-container">
-            <a href="index2.html">
-          <button class="center-button">Place order</button>
-        </a>
-        </div>
-      </div>
+
+
 
 
       
