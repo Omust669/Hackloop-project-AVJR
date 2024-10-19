@@ -156,7 +156,7 @@ a {
 
 /* Contact Section */
 .contact-section {
-    background-color: #fff;
+    background-color: #f2eeee;
     padding: 2rem;
     text-align: center;
 }
@@ -173,29 +173,22 @@ a {
     padding: 1rem 0;
     margin-top: 2rem;
 }
-order {
+.order {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh
+        height: 100vh;
 }
 .container {
     display: flex;
     justify-content: center;
-    background-color: #ffffff;
+    background-color: #fffdfd;
     padding-bottom: 25px;
+    padding-top: 25px;
 
 
   }
   
-  .center-button {
-    padding: 10px 20px; /* Padding */
-    color: white; /* Text color */
-    border: 2px solid  #333;
-    background-color:#ff6347 ; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer;/* Pointer cursor on hover */
-  }
   .overlay {
     display: none; /* Hide by default */
     position: fixed;
