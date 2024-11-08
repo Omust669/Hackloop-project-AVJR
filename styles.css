@@ -88,7 +88,7 @@ a {
     display: flex;
     gap: 2rem;
     justify-content: center;
-    flex-wrap: wrap;
+    flex-wrap:wrap;
 }
 
 .menu-item {
@@ -98,11 +98,14 @@ a {
     width: 250px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease
 }
 
 .menu-item img {
     width: 100%;
-    height: auto;
+    height: 5cm;
     border-radius: 8px;
 }
 
@@ -121,7 +124,128 @@ a {
     padding: 0.5rem 1.5rem;
     border-radius: 5px;
     margin-top: 0.5rem;
+    width: 50px;
 }
+.menu-item label {
+    font-size: 1rem;
+    margin-top: 15px;
+    display: inline-block;
+    
+}
+
+.menu-item:hover {
+    transform: scale(1.05);
+    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+.menu-item input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    margin-top: 5px;
+    text-align: center;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.menu-item input[type="number"]:focus {
+    border-color: #ff6347;
+}
+
+.menu-item input[type="number"]::-webkit-outer-spin-button,
+.menu-item input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* Style for quantity control */
+.quantity-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.quantity-btn {
+    background-color: #ff6347;
+    border: none;
+    color: white;
+    font-size: 20px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.3s ease
+}
+
+.quantity-btn:hover {
+    background-color: #ff4400;
+}
+.quantity-btn:active{
+    transform: scale(0.90);
+}
+
+.quantity-input {
+    width: 50px;
+    height: 30px;
+    text-align: center;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+
+}
+
+/* Cart Section */
+#cart {
+    margin: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#cart h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+#cart-items {
+    list-style: none;
+    padding: 0;
+}
+
+#cart-items li {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+#total-price {
+    font-weight: bold;
+    color: #ff6347;
+    font-size: 1.2rem;
+    margin-top: 20px;
+}
+#cart-items button:hover{
+    background-color: #f95033;
+
+}
+
+/* Remove Button Styling */
+#cart-items button {
+    background-color: #ff6347;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 10px;
+}
+#cart-items button:active {
+    transform: scale(0.90); 
+}
+
 
 /* Order Section */
 .order-section {
@@ -240,7 +364,7 @@ a {
 
 }
 .button:hover {
-    background-color: #cc2002;
+    background-color: #e72300;
 }
 .button:active {
     transform: scale(0.95); /* Scale down on click */
@@ -256,14 +380,15 @@ a {
     animation: fadeIn 0.5s forwards; /* Fade-in animation */
 }
 
+
+
 @keyframes fadeIn {
     to {
         opacity: 1;
+        display:flex;
+        flex-direction: column;
     }
 }
-  
 
-  
-  
 
 
