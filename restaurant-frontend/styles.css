@@ -36,9 +36,16 @@ a {
 
 .navbar ul li {
     display: inline;
+    border-bottom: 2px;
+    display:inline-block;
     transition: tranform 0.3 ease;
 }
 
+.navbar ul li:hover {
+    border-bottom: 2px solid white; /* Show the border on hover */
+    position:relative;
+    top:-2px;
+}
 .navbar ul li:active {
     transform:scale(100%)
 }
