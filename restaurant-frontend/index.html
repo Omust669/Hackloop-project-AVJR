@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Restaurant Ordering</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="icons/pngwing.com.png">
+</head>
+<body>
+    <script>
+        // Function to show the popup
+        function showPopu() {
+            document.getElementById("overlay").style.display = "flex";
+        }
+
+        // Function to close the popup
+        function closePopu() {
+            document.getElementById("overlay").style.display = "none";
+        }
+    </script>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="logo">RestaurantName</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index1.html">Menu</a></li>
+                <li><a href="#" onclick="showPopu()">Order Now</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <div id="overlay" class="overlay">
+            <!-- Popup content -->
+            <div class="popup">
+                <p>Please go through the menu first</p><br>
+                <a href="index1.html">
+                <button class="close-btn" onclick="closePopu()">Go to menu</button>
+            </a>
+            </div>
+        </div>
+    
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <h1>Welcome to RestaurantName</h1>
+        <p>Preorder your meal and enjoy a seamless dining experience.</p>
+        <a href="index1.html" class="button">Explore Menu</a>
+    </section>
+
+    <!-- Menu Section -->
+   
+
+    <!-- Order Now Section -->
+   
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <h2>Contact Us</h2>
+        <p>Email: info@restaurantname.com</p>
+        <p>Phone: (123) 456-7890</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 RestaurantName. All rights reserved.</p>
+    </footer>
+</body>
+</html>
