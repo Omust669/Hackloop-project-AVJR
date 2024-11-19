@@ -36,15 +36,20 @@ a {
 
 .navbar ul li {
     display: inline;
-    border-bottom: 2px;
     display:inline-block;
-    transition: tranform 0.3 ease;
+    transition: all 2.5s ease;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
 }
 
 .navbar ul li:hover {
-    border-bottom: 2px solid white; /* Show the border on hover */
+    border-bottom-color: white;
     position:relative;
     top:-2px;
+    transform: translateY(-2px);
+}
+.navbar ul li:active {
+    transform:scale(100%)
 }
 .navbar ul li:active {
     transform:scale(100%)
@@ -351,19 +356,85 @@ a {
     align-items: center; /* Center the popup */
 }
 
-.popup {
-    background-color: white; /* Popup background color */
-    padding: 30px; /* Increased padding */
-    color: #333; /* Text color */
-    border-radius: 10px; /* Rounded corners */
-    width: 500px; /* Increased width */
-    max-height: 80vh; /* Maximum height with scroll if needed */
-    text-align: center; /* Center text */
-    z-index: 1001; /* Layer above overlay */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* Shadow effect */
-    overflow-y: auto; /* Allow vertical scrolling if content overflows */
+/* Keyframes for slide-in animation */
+@keyframes popup-slide-in {
+    0% {
+        transform: translate(-50%, -150%);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
 }
 
+/* Keyframes for button gradient animation */
+@keyframes gradient-move {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Popup styles */
+.popup {
+    width: 350px;
+    padding: 25px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: popup-slide-in 0.6s ease-out;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px); /* Blur effect */
+    -webkit-backdrop-filter: blur(10px);
+    font-family: Arial, sans-serif;
+    z-index: 1000;
+}
+
+/* Close button styles */
+.close-btn {
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    background-color: #ff6347;
+    background: linear-gradient(135deg, #cb5811, );
+    background-size: 200% 200%;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+/* Button hover effect */
+.close-btn:hover {
+    animation: gradient-move 3s infinite;
+    box-shadow: 0 8px 16px rgba(238, 95, 24, 0.6);
+    transform: translateY(-3px);
+}
+
+/* Responsive styling */
+@media (max-width: 480px) {
+    .popup {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .close-btn {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+}
 
 .button{
     background-color: #ff6347;
