@@ -401,53 +401,71 @@ transform: scale(1.05);
     justify-content: center; /* Center the popup */
     align-items: center; /* Center the popup */
 }
-
-@keyframes smoothSlideDown {
+/* Keyframes for slide-in animation */
+@keyframes popup-slide-in {
     0% {
+        transform: translate(-50%, -150%);
         opacity: 0;
-        transform: translateY(-100px); /* Start well above */
     }
-
     100% {
+        transform: translate(-50%, -50%);
         opacity: 1;
-        transform: translateY(0); /* Settle in final position */
+    }
+}
+
+/* Keyframes for button gradient animation */
+@keyframes gradient-move {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
     }
 }
 
 .popup {
-    background-color: rgba(106, 105, 105, 0.642); /* Popup background color */
-    padding: 30px; /* Increased padding */
-    color: #ffffff; /* Text color */
-    border-radius: 10px; /* Rounded corners */
-    width: 350px; /* Increased width */
-    max-height: 80vh; /* Maximum height with scroll if needed */
-    text-align: center; /* Center text */
-    border: 2px solid #ffffff;
-    z-index: 1001; /* Layer above overlay */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* Shadow effect */
-    overflow-y: auto; /* Allow vertical scrolling if content overflows */
-    opacity: 0; /* Initially hidden */
-    animation: smoothSlideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; /* Refined animation */
+    width: 350px;
+    padding: 25px;
+    background-color: rgba(255, 255, 255, 0.3); /* Semi-transparent background */
+    border: 2px solid rgb(255, 255, 255); /* Subtle border */
+    border-radius: 15px;
+    color: white;
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: popup-slide-in 0.6s ease-out;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px); /* Blur effect */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    font-family: Arial, sans-serif;
+    z-index: 1000;
 }
 
-/* Close button inside the popup */
-.popup button {
-    background-color: #ff4400; /* Slightly darker base color */
-    color: white; /* Text color for contrast */
-    padding: 10px 20px; /* Button padding */
-    border: none; /* Remove default border */
-    border-radius: 5px; /* Rounded corners */
-    font-size: 16px; /* Comfortable text size */
-    cursor: pointer; /* Indicate interactivity */
-    transition: all 0.3s ease; /* Smooth transitions for hover effect */
-    box-shadow: 0 0 10px rgba(51, 51, 51, 0.5); /* Initial glow */
+/* Close button styles */
+.close-btn {
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #ff6347, #e72300);
+    background-size: 200% 200%;
+    color: #fff;
+    transition: all 0.3s ease;
 }
 
-.popup button:hover {
-    box-shadow: 0 0 15px #f95033, 0 0 20px #e72300; /* Enhanced glow on hover */
-    transform: scale(1.05); /* Slightly enlarge on hover */
+/* Button hover effect */
+.close-btn:hover {
+    animation: gradient-move 3s infinite;
+    box-shadow: 0 8px 16px rgba(245, 127, 87, 0.6);
+    transform: translateY(-3px);
 }
-
 
 .button{
     background-color: #ff6347;
