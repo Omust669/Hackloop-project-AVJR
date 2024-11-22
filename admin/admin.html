@@ -8,9 +8,42 @@
 </head>
 <body>
     <h1>Orders</h1>
+
+    <!-- Popup Trigger -->
+    <button onclick="showPopup()">View Today's Summary</button>
+
+    <!-- Popup -->
+    <div id="overlay" onclick="hidePopup()"></div>
+    <div id="popup">
+        <div id="popup-header">
+            <h2>Today's Summary</h2>
+            <span id="popup-close" onclick="hidePopup()">×</span>
+        </div>
+        <div id="popup-content">
+            <p><strong>Total Orders Today:</strong> <span id="totalOrders">0</span></p>
+            <p><strong>Orders Served Today:</strong> <span id="servedOrders">0</span></p>
+            <p><strong>Orders Canceled Today:</strong> <span id="canceledOrders">0</span></p>
+            <p><strong>Total Earnings:</strong> ₹<span id="totalEarnings">0.00</span></p>
+            <p><strong>Items Served:</strong></p>
+            <ul id="servedItemsList"></ul>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div id="filter">
+        <label for="statusFilter">Filter by Status:</label>
+        <select id="statusFilter" onchange="filterOrders()">
+            <option value="all">All</option>
+            <option value="pending" selected>Pending</option>
+            <option value="served">Served</option>
+            <option value="canceled">Canceled</option>
+        </select>
+    </div>
+
     <table id="ordersTable">
         <thead>
             <tr>
+                <th>#</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
@@ -27,6 +60,8 @@
     </table>
 
     <script>
+        let allOrders = []; // Store all orders for filtering
+
         async function fetchOrders() {
             try {
                 const response = await fetch('http://localhost:5000/api/orders');
@@ -35,28 +70,51 @@
                 // Sort orders by createdAt in descending order
                 orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-                const tableBody = document.getElementById('ordersTableBody');
-                tableBody.innerHTML = ''; // Clear the table
-
-                orders.forEach(order => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${order.name}</td>
-                        <td>${order.email}</td>
-                        <td>${order.phone}</td>
-                        <td>${new Date(order.arrivalTime).toLocaleString()}</td>
-                        <td>${order.items.map(item => `${item.name} (x${item.quantity})`).join(', ')}</td>
-                        <td>₹${order.totalPrice.toFixed(2)}</td>
-                        <td>${new Date(order.createdAt).toLocaleString()}</td>
-                        <td id="action-${order._id}">
-                            ${renderActionButtons(order)}
-                        </td>
-                    `;
-                    tableBody.appendChild(row);
-                });
+                allOrders = orders; // Store orders for filtering
+                filterOrders(); // Apply the default filter
             } catch (error) {
                 console.error('Error fetching orders:', error);
             }
+        }
+
+        function filterOrders() {
+            const filterValue = document.getElementById('statusFilter').value;
+
+            let filteredOrders;
+            if (filterValue === 'all') {
+                filteredOrders = allOrders;
+            } else {
+                filteredOrders = allOrders.filter(order => order.status === filterValue);
+            }
+
+            renderOrders(filteredOrders);
+        }
+
+        function renderOrders(orders) {
+            const tableBody = document.getElementById('ordersTableBody');
+            tableBody.innerHTML = ''; // Clear the table
+
+            orders.forEach((order, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${order.name}</td>
+                    <td>${order.email}</td>
+                    <td>${order.phone}</td>
+                    <td>${new Date(order.arrivalTime).toLocaleString()}</td>
+                    <td>${renderItems(order.items)}</td>
+                    <td>₹${order.totalPrice.toFixed(2)}</td>
+                    <td>${new Date(order.createdAt).toLocaleString()}</td>
+                    <td id="action-${order._id}">
+                        ${renderActionButtons(order)}
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function renderItems(items) {
+            return items.map(item => `${item.name} (x${item.quantity})`).join(', ');
         }
 
         function renderActionButtons(order) {
@@ -109,6 +167,65 @@
             } catch (error) {
                 console.error('Error resetting order status:', error);
             }
+        }
+
+        function calculateSummary() {
+            const today = new Date();
+            const todayOrders = allOrders.filter(order => {
+                const orderDate = new Date(order.createdAt);
+                return (
+                    orderDate.getDate() === today.getDate() &&
+                    orderDate.getMonth() === today.getMonth() &&
+                    orderDate.getFullYear() === today.getFullYear()
+                );
+            });
+
+            const totalOrders = todayOrders.length;
+            const servedOrders = todayOrders.filter(order => order.status === 'served').length;
+            const canceledOrders = todayOrders.filter(order => order.status === 'canceled').length;
+            const totalEarnings = todayOrders
+                .filter(order => order.status === 'served')
+                .reduce((sum, order) => sum + order.totalPrice, 0);
+
+            const servedItems = {};
+            todayOrders.filter(order => order.status === 'served').forEach(order => {
+                order.items.forEach(item => {
+                    if (!servedItems[item.name]) {
+                        servedItems[item.name] = 0;
+                    }
+                    servedItems[item.name] += item.quantity;
+                });
+            });
+
+            return { totalOrders, servedOrders, canceledOrders, totalEarnings, servedItems };
+        }
+
+        function updatePopupContent() {
+            const { totalOrders, servedOrders, canceledOrders, totalEarnings, servedItems } = calculateSummary();
+
+            document.getElementById('totalOrders').textContent = totalOrders;
+            document.getElementById('servedOrders').textContent = servedOrders;
+            document.getElementById('canceledOrders').textContent = canceledOrders;
+            document.getElementById('totalEarnings').textContent = totalEarnings.toFixed(2);
+
+            const servedItemsList = document.getElementById('servedItemsList');
+            servedItemsList.innerHTML = '';
+            for (const [itemName, quantity] of Object.entries(servedItems)) {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${itemName}: ${quantity}`;
+                servedItemsList.appendChild(listItem);
+            }
+        }
+
+        function showPopup() {
+            updatePopupContent();
+            document.getElementById('popup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function hidePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
         }
 
         window.onload = fetchOrders;
