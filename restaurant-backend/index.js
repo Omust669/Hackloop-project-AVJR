@@ -27,7 +27,6 @@ mongoose
         process.exit(1);
     });
 
-// Routes
 
 // Place a new order
 app.post('/api/order', async (req, res) => {
