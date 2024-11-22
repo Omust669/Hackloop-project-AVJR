@@ -1,72 +1,85 @@
-const dotenv = require('dotenv'); // Load dotenv to access environment variables
-dotenv.config(); // Load variables from the .env file
-
+require('dotenv').config(); // Load environment variables
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const Order = require('./models/Order');
+const Order = require('./models/Order'); // Import Order model
 
-if (!process.env.MONGO_URI) {
+// Validate MongoDB URI
+const MONGO_URI = process.env.MONGO_URI;
+if (!MONGO_URI) {
     console.error('MongoDB URI is not defined in .env');
-    process.exit(1); // Stop the server if the URI is not found
+    process.exit(1);
 }
 
 const app = express();
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({ origin: 'http://127.0.0.1:5500' })); // Adjust origin as needed
 
-// Connect to MongoDB Atlas using the URI stored in environment variables
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => console.log("MongoDB connected"))
-  .catch(err => console.error("Failed to connect to MongoDB:", err));
-
-// Define a POST route to handle order submissions
-app.post('/api/order', async (req, res) => {
-    const { name, email, phone, arrivalTime, items, totalPrice } = req.body; // Ensure phone is included
-
-    // Validate if there are items in the cart
-    if (!items || items.length === 0) {
-        return res.status(400).json({ message: 'A cart cannot be empty' }); // Respond with error if cart is empty
-    }
-
-    const order = new Order({
-        name,
-        email,
-        phone, // Include phone number
-        arrivalTime,
-        items,
-        totalPrice
+// Connect to MongoDB
+mongoose
+    .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('MongoDB connected'))
+    .catch((err) => {
+        console.error('Failed to connect to MongoDB:', err);
+        process.exit(1);
     });
 
+// Routes
+
+// Place a new order
+app.post('/api/order', async (req, res) => {
+    const { name, email, phone, arrivalTime, items, totalPrice } = req.body;
+
+    // Validate order data
+    if (!items || items.length === 0) {
+        return res.status(400).json({ message: 'Cart cannot be empty' });
+    }
+
     try {
-        // Save the order to the database
+        const order = new Order({ name, email, phone, arrivalTime, items, totalPrice });
         const newOrder = await order.save();
-        res.status(201).json(newOrder); // Respond with the created order
+        res.status(201).json(newOrder);
     } catch (error) {
-        res.status(500).json({ message: 'Failed to place order', error }); // Handle server errors
+        console.error('Error placing order:', error);
+        res.status(500).json({ message: 'Failed to place order', error });
     }
 });
 
-// Route to fetch all orders for admin view
+// Get all orders
 app.get('/api/orders', async (req, res) => {
     try {
-        const orders = await Order.find(); // Fetch all orders from the database
-        res.status(200).json(orders); // Respond with the orders
+        const orders = await Order.find();
+        res.status(200).json(orders);
     } catch (error) {
-        res.status(500).json({ message: 'Failed to retrieve orders', error }); // Handle errors
+        console.error('Error retrieving orders:', error);
+        res.status(500).json({ message: 'Failed to retrieve orders', error });
     }
 });
 
-const path = require('path');
+// Update order status
+app.patch('/api/orders/:id', async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
 
-// Serve the admin page
-app.get('/admin', (req, res) => {
-    res.sendFile(path.join(__dirname, 'admin.html'));
+    // Validate status
+    const validStatuses = ['served', 'canceled', 'pending'];
+    if (!validStatuses.includes(status)) {
+        return res.status(400).json({ message: 'Invalid status' });
+    }
+
+    try {
+        const order = await Order.findByIdAndUpdate(id, { status }, { new: true });
+        if (!order) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+        res.status(200).json({ message: `Order updated to ${status}`, order });
+    } catch (error) {
+        console.error('Error updating order status:', error);
+        res.status(500).json({ message: 'Error updating order status', error });
+    }
 });
 
 // Start the server
