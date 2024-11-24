@@ -1,9 +1,9 @@
-require('dotenv').config(); // Load environment variables
+require('dotenv').config(); 
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const Order = require('./models/Order'); // Import Order model
+const Order = require('./models/Order'); 
 
 // Validate MongoDB URI
 const MONGO_URI = process.env.MONGO_URI;
