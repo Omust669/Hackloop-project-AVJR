@@ -2,10 +2,9 @@
        function showPopup() {
         // Show the popup
         document.getElementById("overlay").style.display = "flex";  
-        // Automatically close the popup after 2.5 seconds 
         setTimeout(() => {
-            closePopup();  // Close the popup after 2.5 seconds
-            window.location.href = "index.html";  // Redirect to index.html
+            closePopup();  
+            window.location.href = "index.html";  
         }, 2500);
     }
 
@@ -21,7 +20,7 @@
 
     // Function to close the invalid time popup
     function closeInvalidTimePopup() {
-        document.getElementById("invalidTimeOverlay").style.display = "none";  // Hide the invalid time popup
+        document.getElementById("invalidTimeOverlay").style.display = "none"; 
     }
 
     // Function to show the invalid time popup

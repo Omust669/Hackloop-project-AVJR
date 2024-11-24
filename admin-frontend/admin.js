@@ -1,43 +1,27 @@
-let allOrders = []; // Store all orders for filtering
-let searchTimeout; // To store the timeout ID for debouncing
-let hideMessageTimeout; // Timeout ID for hiding "Try different keywords" message
+let allOrders = [];
+let searchTimeout; 
 const { jsPDF } = window.jspdf;
-// Flag to check if the message is already shown
 let isMessageShown = false;
+let hideMessageTimeout; 
 
-// Fetch orders function
 async function fetchOrders() {
     try {
-        const response = await fetch('http://localhost:3000/api/orders');
+        const response = await fetch('http://localhost:5000/api/orders'); 
         if (!response.ok) {
-            throw new Error(`Error: ${response.statusText}`);
+            throw new Error('Network response was not ok');
         }
-
-        const orders = await response.json();
-
-        if (!Array.isArray(orders)) {
-            throw new Error('Invalid response: Data is not an array');
-        }
-
-        // Sort orders by createdAt in descending order (for extra safety)
-        orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-        allOrders = orders; // Store the sorted orders
-        filterOrders(); // Apply filter and render the orders
+        const data = await response.json();
+        allOrders = data; // Store fetched data in allOrders array
+        console.log(data);  
+        filterOrders(); // Call filterOrders to render the fetched data
     } catch (error) {
         console.error('Error fetching orders:', error);
-        alert('Error fetching orders. Please check the server.');
     }
 }
-// Function to check if an order was created today
-function isOrderToday(order) {
-    const orderDate = new Date(order.createdAt);
-    const today = new Date();
 
-    return orderDate.getDate() === today.getDate() && 
-           orderDate.getMonth() === today.getMonth() && 
-           orderDate.getFullYear() === today.getFullYear();
-}
+document.addEventListener('DOMContentLoaded', () => {
+    fetchOrders(); // Ensure this is called when the DOM is fully loaded
+});
 
 
 // Filter orders based on status and search query
@@ -45,10 +29,8 @@ function filterOrders() {
     const filterValue = document.getElementById('statusFilter').value;
     const searchQuery = document.getElementById('searchInput').value.toLowerCase();
 
-    // Apply status filter
     let filteredOrders = filterValue === 'all' ? allOrders : allOrders.filter(order => order.status === filterValue);
 
-    // Apply search filter
     if (searchQuery) {
         filteredOrders = filteredOrders.filter(order =>
             order.name.toLowerCase().includes(searchQuery) ||
@@ -57,13 +39,16 @@ function filterOrders() {
         );
     }
 
-    renderOrders(filteredOrders); // Render filtered orders
+    console.log('Filtered Orders:', filteredOrders); // Log filtered orders
+    renderOrders(filteredOrders); 
 }
+
+
 
 // Function to render orders
 function renderOrders(orders) {
     const tableBody = document.getElementById('ordersTableBody');
-    const noResultsMessage = document.getElementById('noResultsMessage'); // Reference for "Try different keywords" message
+    const noResultsMessage = document.getElementById('noResultsMessage');
     tableBody.innerHTML = ''; // Clear the table
 
     // If no orders match the criteria, show the "Try different keywords" message
@@ -78,9 +63,8 @@ function renderOrders(orders) {
             }
             isMessageShown = true; // Set the flag to true when message is shown
 
-            // Set a timeout to remove the message after 3 seconds (or adjust time as needed)
             if (hideMessageTimeout) {
-                clearTimeout(hideMessageTimeout); // Clear previous timeout if any
+                clearTimeout(hideMessageTimeout); 
             }
             hideMessageTimeout = setTimeout(() => {
                 hideMessage();
@@ -115,7 +99,7 @@ function renderOrders(orders) {
         tableBody.appendChild(row);
     });
 }
-
+fetchOrders();
 // Function to render items
 function renderItems(items) {
     return items.map(item => `${item.name} (x${item.quantity})`).join(', ');
@@ -139,7 +123,7 @@ function renderActionButtons(order) {
 // Function to update the status of an order
 async function updateOrderStatus(orderId, newStatus) {
     try {
-        const response = await fetch(`http://localhost:3000/api/orders/${orderId}`, {
+        const response = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -181,7 +165,7 @@ async function updateOrderStatus(orderId, newStatus) {
 // Function to reset the status of an order (Undo action)
 async function resetOrderStatus(orderId) {
     try {
-        const response = await fetch(`http://localhost:3000/api/orders/${orderId}`, {
+        const response = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -219,84 +203,92 @@ async function resetOrderStatus(orderId) {
         alert(error.message); 
     }
 }
+// Function to check if the order was created today
+function isOrderToday(order) {
+    const today = new Date();
+    const orderDate = new Date(order.createdAt);
+    return today.toDateString() === orderDate.toDateString();
+}
+
 
 // Function to show the popup with selected date or month summary
 function showPopup() {
-    // Get the selected date or month from the input fields
     const selectedDate = document.getElementById('datePicker').value;
     const selectedMonth = document.getElementById('monthPicker').value;
 
     let selectedDateText = "Today";  // Default to "Today"
-    
     let filteredOrders;
 
     if (selectedDate) {
-        // If a specific date is selected, filter orders by that date
         filteredOrders = allOrders.filter(order => {
             const orderDate = new Date(order.createdAt);
             return orderDate.toLocaleDateString() === new Date(selectedDate).toLocaleDateString();
         });
-        
-        // Set the date text for the popup header
         const orderDate = new Date(selectedDate);
-        selectedDateText = orderDate.toLocaleDateString();  // Format as "MM/DD/YYYY"
+        selectedDateText = orderDate.toLocaleDateString();
     } else if (selectedMonth) {
-        // If a specific month is selected, filter orders by that month
         filteredOrders = allOrders.filter(order => {
             const orderDate = new Date(order.createdAt);
             return orderDate.getFullYear() === parseInt(selectedMonth.split("-")[0]) &&
                    orderDate.getMonth() === parseInt(selectedMonth.split("-")[1]) - 1;
         });
-        
-        // Set the month text for the popup header
         const monthDate = new Date(selectedMonth + "-01");
-        selectedDateText = monthDate.toLocaleString('default', { month: 'long', year: 'numeric' });  // Format as "Month YYYY"
+        selectedDateText = monthDate.toLocaleString('default', { month: 'long', year: 'numeric' });
     } else {
-        // Default: If no date or month is selected, use today's orders
         filteredOrders = allOrders.filter(order => isOrderToday(order));
-
-        // Set "Today" as the default text
         const today = new Date();
-        selectedDateText = today.toLocaleDateString();  // "Today"
+        selectedDateText = today.toLocaleDateString();
     }
 
-    // Update the selected date or month in the popup header
     document.getElementById('selectedDate').textContent = selectedDateText;
-
-    // Calculate summary based on the filtered orders
     const totalOrders = filteredOrders.length;
     const servedOrders = filteredOrders.filter(order => order.status === 'served').length;
     const canceledOrders = filteredOrders.filter(order => order.status === 'canceled').length;
-    const totalEarnings = filteredOrders.reduce((total, order) => total + order.totalPrice, 0);
+
+    // Calculate total earnings for only served orders
+    const totalEarnings = filteredOrders
+        .filter(order => order.status === 'served')
+        .reduce((total, order) => total + order.totalPrice, 0);
+    
+    // Aggregate served items
     const servedItems = filteredOrders
         .filter(order => order.status === 'served')
-        .reduce((items, order) => [...items, ...order.items], []);
+        .reduce((items, order) => {
+            order.items.forEach(item => {
+                const existingItem = items.find(i => i.name === item.name);
+                if (existingItem) {
+                    existingItem.quantity += item.quantity;
+                } else {
+                    items.push({ ...item });
+                }
+            });
+            return items;
+        }, []);
 
-    // Update the UI with the calculated summary
     document.getElementById('totalOrders').textContent = totalOrders;
     document.getElementById('servedOrders').textContent = servedOrders;
     document.getElementById('canceledOrders').textContent = canceledOrders;
     document.getElementById('totalEarnings').textContent = totalEarnings.toFixed(2);
 
-    // Update the served items list
     const servedItemsList = document.getElementById('servedItemsList');
-    servedItemsList.innerHTML = ''; // Clear the list
+    servedItemsList.innerHTML = '';
     servedItems.forEach(item => {
         const li = document.createElement('li');
         li.textContent = `${item.name} (x${item.quantity})`;
         servedItemsList.appendChild(li);
     });
 
-    // Show the popup
     document.getElementById('overlay').style.display = 'block';
     document.getElementById('popup').style.display = 'block';
 }
 
-// Function to hide the popup
+
 function hidePopup() {
+    console.log('Hiding popup'); // Log hiding popup
     document.getElementById('overlay').style.display = 'none';
     document.getElementById('popup').style.display = 'none';
 }
+
 
 function generatePDFReport() {
     const selectedDate = document.getElementById('datePicker').value;
@@ -305,83 +297,90 @@ function generatePDFReport() {
     let filteredOrders;
 
     if (selectedDate) {
-        // If a specific date is selected, filter orders by that date
         filteredOrders = allOrders.filter(order => {
             const orderDate = new Date(order.createdAt);
             return orderDate.toLocaleDateString() === new Date(selectedDate).toLocaleDateString();
         });
     } else if (selectedMonth) {
-        // If a specific month is selected, filter orders by that month
         filteredOrders = allOrders.filter(order => {
             const orderDate = new Date(order.createdAt);
             return orderDate.getFullYear() === parseInt(selectedMonth.split("-")[0]) &&
                    orderDate.getMonth() === parseInt(selectedMonth.split("-")[1]) - 1;
         });
     } else {
-        // Default: If no date or month is selected, use today's orders
         filteredOrders = allOrders.filter(order => isOrderToday(order));
     }
 
-    // Calculate summary
     const totalOrders = filteredOrders.length;
     const servedOrders = filteredOrders.filter(order => order.status === 'served').length;
     const canceledOrders = filteredOrders.filter(order => order.status === 'canceled').length;
-    const totalEarnings = filteredOrders.reduce((total, order) => total + order.totalPrice, 0);
+    const totalEarnings = filteredOrders
+        .filter(order => order.status === 'served')
+        .reduce((total, order) => total + order.totalPrice, 0);
+
+    // Aggregate served items
     const servedItems = filteredOrders
         .filter(order => order.status === 'served')
-        .reduce((items, order) => [...items, ...order.items], []);
+        .reduce((items, order) => {
+            order.items.forEach(item => {
+                const existingItem = items.find(i => i.name === item.name);
+                if (existingItem) {
+                    existingItem.quantity += item.quantity;
+                } else {
+                    items.push({ ...item });
+                }
+            });
+            return items;
+        }, []);
 
-    // Create PDF using jsPDF
     const doc = new jsPDF();
-
-    // Add a custom font (FreeSerif) for better support of special characters like ₹
     doc.addFont('path-to-font/FreeSerif.ttf', 'FreeSerif', 'normal'); // Add path to FreeSerif font
-    doc.setFont('FreeSerif');  // Set the font to FreeSerif
+    doc.setFont('FreeSerif');
 
-    // Add title
     doc.setFontSize(18);
     doc.text('Order Summary Report', 20, 20);
 
-    // Add date or month header
-    let selectedDateText = "Today";  // Default to "Today"
+    let selectedDateText;  // Initialize without a value
     if (selectedDate) {
         const orderDate = new Date(selectedDate);
-        selectedDateText = orderDate.toLocaleDateString();  // Format as "MM/DD/YYYY"
+        selectedDateText = orderDate.toLocaleDateString();
     } else if (selectedMonth) {
         const monthDate = new Date(selectedMonth + "-01");
-        selectedDateText = monthDate.toLocaleString('default', { month: 'long', year: 'numeric' });  // Format as "Month YYYY"
+        selectedDateText = monthDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+    } else {
+        const today = new Date();
+        selectedDateText = today.toLocaleDateString();  // Display today's date instead of "Today"
     }
+    
 
     doc.setFontSize(14);
     doc.text(`Selected Date: ${selectedDateText}`, 20, 30);
 
-    // Add summary data
     doc.setFontSize(12);
     doc.text(`Total Orders: ${totalOrders}`, 20, 40);
     doc.text(`Orders Served: ${servedOrders}`, 20, 50);
     doc.text(`Orders Canceled: ${canceledOrders}`, 20, 60);
-    doc.text(`Total Earnings: ${totalEarnings.toFixed(2)}`, 20, 70);  // Rupee symbol here
+    doc.text(`Total Earnings: ${totalEarnings.toFixed(2)}`, 20, 70);
 
-    // Add served items list
     doc.text('Served Items:', 20, 80);
-    let yOffset = 90; // Starting position for served items
+    let yOffset = 90;
     servedItems.forEach((item, index) => {
         doc.text(`${index + 1}. ${item.name} (x${item.quantity})`, 20, yOffset);
-        yOffset += 10;  // Adjust yOffset for the next item
+        yOffset += 10;
     });
 
-    // Save the PDF
     doc.save('order_summary.pdf');
 }
+
 
 
 // Function to hide the "Try different keywords" message
 function hideMessage() {
     const noResultsMessage = document.getElementById('noResultsMessage');
     if (noResultsMessage) {
-        noResultsMessage.remove(); // Remove the message after the delay
+        noResultsMessage.remove();
     }
-    isMessageShown = false; // Reset the flag when the message is removed
+    isMessageShown = false;
 }
 
 // Add debounce to the search input
@@ -522,7 +521,7 @@ function groupOrdersByDate(orders) {
 // Periodically refresh data
 setInterval(() => {
     fetchOrders();
-}, 2000); // Refresh data every 3 seconds
+}, 3000); // Refresh data every 3 seconds
 
 
 // Initial fetch
