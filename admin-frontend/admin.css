@@ -1,4 +1,104 @@
+body {
+    font-family: Arial, sans-serif;
+}
 
+.login-container {
+    width: 300px;
+    height: 375px;
+    margin: 100px auto;
+    padding: 20px;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: center;
+    background-color: #f8f9fa;
+    transition: box-shadow 0.3s ease, transform 0.2s ease; 
+}
+.login-container:hover { 
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px); 
+}
+
+h2 {
+    text-align: center;
+    color: #000000; 
+    margin-top: 50px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; 
+}
+
+label {
+    margin-top: 15px;
+    width: 100%; 
+    text-align: left; 
+    color: #555;
+    margin-top: 30px; 
+}
+
+input {
+    padding: 8px;
+    margin-top: 10px;
+    width: 100%; 
+    border: 1px solid #555555; 
+    border-radius: 4px; 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    
+}
+
+
+.loginbtn {
+    background-color: #ff6347; 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 10px 20px; 
+    margin-top: 55px; 
+    width: 100%; 
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.loginbtn:hover {
+    background-color: #ff7d32;
+    transform: translateY(-2px); 
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); 
+}
+
+#error-message {
+    color: red;
+    text-align: center;
+    margin-top: 10px; 
+}
+
+#logoutButton {
+    position: fixed; 
+    top: 10px; 
+    right: 10px; 
+    background-color: #af1e2c; 
+    color: white; 
+    margin-bottom: 10px;
+    font-size: 14px; 
+    font-weight: bold;
+    padding: 8px 16px; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 9999; 
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#logoutButton:hover {
+    background-color: #c82333; 
+    transform: translateY(-2px);
+
+}
 
 h1 {
     text-align: center;
@@ -7,7 +107,6 @@ h1 {
     text-decoration-line: underline;
 }
 
-/* Table Styles */
 table {
     width: 99%;
     margin: 20px auto;
@@ -40,41 +139,40 @@ table td, table th {
     padding: 10px;
     border: 1px solid #ddd;
 }
-.phone{
+
+.phone {
+    width: 4cm;
+    margin-right: 15px; 
+    vertical-align: middle; 
+}
+
+.date {
     width: 3cm;
-margin-right: 15px; /* Space between the elements */
-vertical-align: middle; /* Align items vertically */
+    margin-right: 15px;
+    vertical-align: middle;
 }
-.date{
-width: 3cm;
-margin-right: 15px; /* Space between the elements */
-vertical-align: middle;
-}
-.items{
-width: 4cm; /* Space between the elements */
-vertical-align: middle;
-display: flex;
-    flex-wrap: wrap; /* Allow items to wrap to the next line */
-    gap: 10px; /* Space between the items */
-    margin: 10px ;
+
+.items {
+    width: 5cm; 
+    vertical-align: middle;
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10px;
+    margin: 10px;
     background-color: transparent;
 }
 
-/* Styling for the order status text */
 .order-status {
     font-weight: bold;
-    margin-right: 10px; /* Space between the status text and buttons */
+    margin-right: 10px; 
 }
 
-/* Button container to keep buttons aligned beside each other */
 .button-container {
     display: flex;
-    gap: 10px; /* Space between buttons */
+    gap: 10px; 
 }
 
-/* Styling for buttons */
 button {
-    max-width: 4cm;
     height: fit-content;
     font-size: 14px;
     padding: 8px 16px;
@@ -83,7 +181,34 @@ button {
     border-radius: 5px;
     transition: background-color 0.3s ease;
 }
-.served {
+/* Default Button Styles */
+.btn {
+    background-color: #ff7f50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px; 
+    cursor: pointer;
+    font-size: 14px; 
+    white-space: nowrap; 
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+.btn:hover {
+    background-color: #ff7043; 
+    transform: translateY(-3px); 
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); 
+}
+
+.btn:active {
+    background-color: #e55347; 
+    transform: translateY(1px); 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+
+button.served {
     background-color: #4CAF50;
     color: white;
     width: 3.5cm;
@@ -111,15 +236,14 @@ button.reset {
 button.reset:hover {
     background-color: #ff8c00;
 }
-/* Make buttons align properly in a row */
-button-container {
+
+.button-container {
     display: flex;
-    gap: 10px; /* Adds space between buttons */
-    justify-content: center; /* Center-align the buttons */
-    flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
+    gap: 10px; 
+    justify-content: center; 
+    flex-wrap: wrap; 
 }
 
-/* Optional: Add some margin for better spacing */
 #ordersTable td {
     padding: 10px;
 }
@@ -129,27 +253,56 @@ input[type="date"], input[type="month"] {
     padding: 8px;
     font-size: 14px;
 }
-/* Filter Section */
+
+/* Filter and Search Styles */
 #filter {
     width: 90%;
     margin: 20px auto;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between; 
     align-items: center;
-    gap: 20px;
+}
+
+#filter .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
 }
 
 #filter label {
     font-size: 16px;
     font-weight: bold;
+    color: #333; 
+    margin: 0; 
+    padding: 0;
 }
 
-#filter select {
-    padding: 5px 10px;
+#filter select,
+#searchInput {
+    padding: 8px 10px;
     font-size: 14px;
     border-radius: 4px;
     border: 1px solid #ddd;
+    transition: border-color 0.3s ease;
+    background-color: #fff; 
+    margin: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); 
 }
+
+#filter select:hover,
+#searchInput:hover {
+    border-color: #aaa; 
+}
+
+#searchInput {
+    width: 300px; 
+}
+
+#filter .search-group {
+    margin-left: auto;
+}
+
+
 #overlay {
     display: none;
     position: fixed;
@@ -161,8 +314,6 @@ input[type="date"], input[type="month"] {
     z-index: 999;
 }
 
-
-/* Popup Styles */
 #popup {
     display: none;
     position: fixed;
@@ -175,8 +326,8 @@ input[type="date"], input[type="month"] {
     border: 1px solid #ddd;
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
     padding: 20px;
-    width: 80%; /* Set width as desired */
-    max-height: 80%; /* Prevents the popup from being too tall */
+    width: 80%; 
+    max-height: 80%; 
     overflow-y: auto;
     border-radius: 8px;
     animation: fadeIn 0.5s ease;
@@ -224,7 +375,17 @@ input[type="date"], input[type="month"] {
     border-radius: 4px;
 }
 
-
+#popup input[type="date"],
+#popup input[type="month"] {
+    max-width: 150px; 
+    margin: 10px;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); 
+    background-color: #f8f9fa; 
+}
 
 /* Animations */
 @keyframes fadeIn {
@@ -247,24 +408,14 @@ input[type="date"], input[type="month"] {
     z-index: 999;
 }
 
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
 #viewDetailsButton {
-    display:flex;
+    display: flex;
     margin: 20px auto;
     padding: 10px 20px;
     font-size: 16px;
     font-weight: bold;
     color: white;
-    background-color: #007BFF;
+    background-color: #6c757d; 
     border: none;
     border-radius: 4px;
     cursor: pointer;
