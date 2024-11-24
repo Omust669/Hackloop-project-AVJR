@@ -8,22 +8,15 @@
         }, 2500);
     }
 
-    // Function to close the popup
     function closePopup() {
         document.getElementById("overlay").style.display = "none";  // Hide the popup
     }
-
-    // Function to show the empty cart popup
     function showEmptyCartPopup() {
         document.getElementById("emptyCartOverlay").style.display = "flex";  
     }
-
-    // Function to close the invalid time popup
     function closeInvalidTimePopup() {
         document.getElementById("invalidTimeOverlay").style.display = "none"; 
     }
-
-    // Function to show the invalid time popup
     function showInvalidTimePopup() {
         document.getElementById("invalidTimeOverlay").style.display = "flex";  
     }
@@ -39,19 +32,15 @@
         const cartItemsElement = document.getElementById('cart-items');
         const totalPriceElement = document.getElementById('total-price');
 
-        cartItemsElement.innerHTML = '';  // Clear previous content
-        // Display each item in the cart
+        cartItemsElement.innerHTML = '';  
         cart.forEach(item => {
             const listItem = document.createElement('li');
             listItem.textContent = `${item.name} - ₹${item.price} x ${item.quantity} = ₹${item.totalPrice.toFixed(2)}`;
             cartItemsElement.appendChild(listItem);
         });
-
-        // Display total price
         totalPriceElement.textContent = `Total: ₹${total.toFixed(2)}`;
     }
 
-    // Call loadCart() when the page loads
     document.addEventListener('DOMContentLoaded', loadCart);
 
     async function handleSubmit(event) {
