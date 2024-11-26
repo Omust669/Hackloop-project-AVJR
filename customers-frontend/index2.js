@@ -21,6 +21,12 @@
         document.getElementById("invalidTimeOverlay").style.display = "flex";  
     }
 
+    function showpastdatepopup() {
+        document.getElementById("pastdateoverlay").style.display = "flex";  
+    }
+    function closepastdatepopup() {
+        document.getElementById("pastdateoverlay").style.display = "none"; 
+    }
     // Function to redirect to the menu page
     function redirectToMenu() {
         window.location.href = "index1.html";  // Redirect to menu page
@@ -68,6 +74,14 @@
             // Show invalid time popup if the time is outside the allowed range
             showInvalidTimePopup();
             return;
+        }
+        const selecteddate=new Date(document.getElementById('time').value); 
+        const currentdate=new Date();
+        if(selecteddate<currentdate)
+        {
+            showpastdatepopup();
+            return;
+
         }
 
         const orderData = {
