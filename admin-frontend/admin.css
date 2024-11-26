@@ -40,12 +40,21 @@ form {
     width: 100%; 
 }
 
-label {
+.label1{
     margin-top: 15px;
     width: 98%; 
     text-align: left; 
     color: #555;
     margin-top: 30px; 
+    transition: transform 0.1s ease;
+}
+.label2 {
+    margin-top: 15px;
+    width: 98%; 
+    text-align: left; 
+    color: #555;
+    margin-top: 30px; 
+    transition: transform 0.1s ease;
 }
 
 input {
@@ -55,14 +64,19 @@ input {
     border: 1px solid #262525c5; 
     border-radius: 25px; 
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.414); 
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease;
 }
 
+input:hover {
+    border-color: #000;
+    transform: translateY(-1px); 
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); 
+}
 
 .loginbtn {
     background-color: #ff6347; 
     color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.414); 
     border: none;
     border-radius: 25px;
     cursor: pointer;
@@ -190,7 +204,7 @@ button {
     border-radius: 5px;
     transition: background-color 0.3s ease;
 }
-/* Default Button Styles */
+
 .btn {
     background-color: #ff7f50;
     color: white;
