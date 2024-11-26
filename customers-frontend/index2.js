@@ -29,7 +29,7 @@
     }
     // Function to redirect to the menu page
     function redirectToMenu() {
-        window.location.href = "index1.html";  // Redirect to menu page
+        window.location.href = "index1.html";  
     }
 
     function loadCart() {
@@ -60,7 +60,6 @@
         const total = parseFloat(localStorage.getItem('total') || '0');
 
         if (cart.length === 0) {
-            // Show the empty cart popup if the cart is empty
             showEmptyCartPopup();
             return;
         }
@@ -71,7 +70,6 @@
         const endHour = 22; // 10:00 PM
 
         if (hours < startHour || hours >= endHour) {
-            // Show invalid time popup if the time is outside the allowed range
             showInvalidTimePopup();
             return;
         }
@@ -105,7 +103,7 @@
             if (response.ok) {
                 const result = await response.json();
                 console.log('Order placed successfully:', result);
-                localStorage.removeItem('cart'); // Clear the cart after successful order
+                localStorage.removeItem('cart'); 
                 localStorage.removeItem('total');
                 showPopup();
             } else {
