@@ -28,15 +28,26 @@ mongoose
     });
 
     // Get all orders
-app.get('/api/orders', async (req, res) => {
-    try {
-        const orders = await Order.find().sort({ createdAt: -1 }); // Sort by createdAt in descending order
-        res.status(200).json(orders);
-    } catch (error) {
-        console.error('Error retrieving orders:', error);
-        res.status(500).json({ message: 'Failed to retrieve orders', error });
-    }
-});
+    app.get('/api/orders', async (req, res) => {
+        try {
+            // Fetch all orders
+            const orders = await Order.find();
+    
+            // Sort orders by closest arrivalTime to the current time
+            const currentTime = new Date();
+            orders.sort((a, b) => {
+                const timeA = Math.abs(new Date(a.arrivalTime) - currentTime);
+                const timeB = Math.abs(new Date(b.arrivalTime) - currentTime);
+                return timeA - timeB;
+            });
+    
+            res.status(200).json(orders);
+        } catch (error) {
+            console.error('Error retrieving orders:', error);
+            res.status(500).json({ message: 'Failed to retrieve orders', error });
+        }
+    });
+    
 
 // Update order status
 app.patch('/api/orders/:id', async (req, res) => {

@@ -3,8 +3,8 @@ body {
 }
 
 .login-container {
-    width: 300px;
-    height: 375px;
+    width: 250px;
+    height: 350px;
     margin: 100px auto;
     padding: 20px;
     border: 2px solid #000000;
@@ -14,15 +14,23 @@ body {
     background-color: #f8f9fa;
     transition: box-shadow 0.3s ease, transform 0.2s ease; 
 }
+
 .login-container:hover { 
-    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.418);
     transform: translateY(-2px); 
 }
 
-h2 {
+.loginhead {
+    font-size: xx-large;
     text-align: center;
     color: #000000; 
-    margin-top: 50px;
+    margin-top: 40px;
+}
+.LOGIN{
+    font-size: x-large;
+    text-align: center;
+    color: #000000;
+    margin: 0%; 
 }
 
 form {
@@ -32,34 +40,49 @@ form {
     width: 100%; 
 }
 
-label {
+.label1{
     margin-top: 15px;
-    width: 100%; 
+    width: 98%; 
     text-align: left; 
     color: #555;
     margin-top: 30px; 
+    transition: transform 0.1s ease;
+}
+.label2 {
+    margin-top: 15px;
+    width: 98%; 
+    text-align: left; 
+    color: #555;
+    margin-top: 30px; 
+    transition: transform 0.1s ease;
 }
 
 input {
-    padding: 8px;
-    margin-top: 10px;
-    width: 100%; 
-    border: 1px solid #555555; 
-    border-radius: 4px; 
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); 
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    
+    padding: 10px;
+    margin-top: 7px;
+    width: 95%; 
+    border: 1px solid #262525c5; 
+    border-radius: 25px; 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.414); 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease;
 }
 
+input:hover {
+    border-color: #000;
+    transform: translateY(-1px); 
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); 
+}
 
 .loginbtn {
     background-color: #ff6347; 
     color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.414); 
     border: none;
-    border-radius: 4px;
+    border-radius: 25px;
     cursor: pointer;
     padding: 10px 20px; 
-    margin-top: 55px; 
+    margin-top: 45px; 
+    margin-bottom: 20px;
     width: 100%; 
     text-align: center;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
@@ -181,7 +204,7 @@ button {
     border-radius: 5px;
     transition: background-color 0.3s ease;
 }
-/* Default Button Styles */
+
 .btn {
     background-color: #ff7f50;
     color: white;
