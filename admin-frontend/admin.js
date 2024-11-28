@@ -34,8 +34,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Filter orders based on status and search query
 function filterOrders() {
-    const filterValue = document.getElementById('statusFilter').value;
-    const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+    const statusFilterElement = document.getElementById('statusFilter');
+    const searchInputElement = document.getElementById('searchInput');
+
+    if (!statusFilterElement || !searchInputElement) {
+        console.error('One or more elements are missing from the DOM');
+        return;
+    }
+
+    const filterValue = statusFilterElement.value;
+    const searchQuery = searchInputElement.value.toLowerCase();
+    const currentTime = new Date();
 
     let filteredOrders = filterValue === 'all' ? allOrders : allOrders.filter(order => order.status === filterValue);
 
@@ -47,8 +56,15 @@ function filterOrders() {
         );
     }
 
-    console.log('Filtered Orders:', filteredOrders); 
-    renderOrders(filteredOrders); 
+    // Sort orders based on the closest arrivalTime to the current time
+    filteredOrders.sort((a, b) => {
+        const timeA = Math.abs(new Date(a.arrivalTime) - currentTime);
+        const timeB = Math.abs(new Date(b.arrivalTime) - currentTime);
+        return timeA - timeB;
+    });
+
+    console.log('Filtered Orders:', filteredOrders);
+    renderOrders(filteredOrders);
 }
 
 
