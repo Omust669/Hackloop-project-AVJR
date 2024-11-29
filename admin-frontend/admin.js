@@ -52,7 +52,9 @@ function filterOrders() {
         filteredOrders = filteredOrders.filter(order =>
             order.name.toLowerCase().includes(searchQuery) ||
             order.email.toLowerCase().includes(searchQuery) ||
-            order.phone.includes(searchQuery)
+            order.phone.includes(searchQuery) ||
+            order.code.toString().includes(searchQuery)
+
         );
     }
 
@@ -106,7 +108,7 @@ function renderOrders(orders) {
         row.innerHTML = `
             <td>${index + 1}</td>
             <td>${order.code}</td>
-            <td>${order.name}</td>
+            <td class="name">${order.name}</td>
             <td>${order.email}</td>
             <td class="phone">${order.phone}</td>
             <td class="date">${new Date(order.arrivalTime).toLocaleString()}</td>

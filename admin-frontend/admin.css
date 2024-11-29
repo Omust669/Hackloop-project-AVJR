@@ -162,9 +162,13 @@ table td, table th {
     padding: 10px;
     border: 1px solid #ddd;
 }
-
+.name{
+    width: 10%;
+    margin-right: 15px; 
+    vertical-align: middle; 
+}
 .phone {
-    width: 4cm;
+    width: 10%;
     margin-right: 15px; 
     vertical-align: middle; 
 }
