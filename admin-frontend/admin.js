@@ -105,6 +105,7 @@ function renderOrders(orders) {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${index + 1}</td>
+            <td>${order.code}</td>
             <td>${order.name}</td>
             <td>${order.email}</td>
             <td class="phone">${order.phone}</td>
