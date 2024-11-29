@@ -129,15 +129,31 @@ app.post('/api/order', async (req, res) => {
             return `${month} ${day}, ${year} at ${formattedHours}:${formattedMinutes} ${ampm}`;
         };
 
-        const formattedDateTime =new Date(arrivalTime);
-
+        // Function to format the date
+        const formatDate = (date) => {
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true, // Set to true for AM/PM format
+            };
+            return new Date(date).toLocaleString('en-US', options);
+        };
+        
+        // Format arrivalTime for the email
+        const formattedArrivalTime = formatDate(arrivalTime);
+        
         // Send email to the user using Mailgun
         const emailData = {
             from: `Admin@${process.env.MAILGUN_DOMAIN}`,
             to: email,
             subject: 'Order Confirmation',
-            text: `Hello ${name},\n\nThank you for your order!\n\nYour order details:\n${orderDetails}\n\nTotal: ₹${totalPrice}\nPickup Time: ${formattedDateTime}\n\nYour confirmation code: ${code}\n\nWe kindly request that you retain this code, as it will be necessary to verify your order at the restaurant.\n\nRegards,\nRestaurant Team`,
+            text: `Hello ${name},\n\nThank you for your order!\n\nYour order details:\n${orderDetails}\n\nTotal: ₹${totalPrice}\nPickup Time: ${formattedArrivalTime}\n\nYour confirmation code: ${code}\n\nWe kindly request that you retain this code, as it will be necessary to verify your order at the restaurant.\n\nRegards,\nRestaurant Team`,
         };
+        
 
         mg.messages().send(emailData, (error, body) => {
             if (error) {
